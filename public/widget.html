@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Daily Quotes - Widget</title>
+  <style>
+    body{font-family: 'Press Start 2P', cursive;background:#000080;color:#00FF00;margin:0;display:flex;align-items:center;justify-content:center;height:100vh}
+    .w{padding:12px;border:2px solid #00FF00;background:#000000;width:320px;box-shadow:4px 4px 0 #FF00FF}
+    .text{font-size:12px;line-height:1.4;margin-bottom:8px}
+    .author{font-size:10px;color:#00FFFF}
+    button{margin-top:8px;padding:6px 8px;border:2px solid #00FF00;background:#00FF00;color:#000080;font-family:inherit}
+  </style>
+</head>
+<body>
+  <div class="w" id="widget">
+    <div class="text" id="quote">Loading...</div>
+    <div class="author" id="author"></div>
+    <button id="next">Next</button>
+  </div>
+
+  <script>
+    const sampleQuotes = [
+      { text: 'The only way to do great work is to love what you do.', author: 'Steve Jobs' },
+      { text: 'Innovation distinguishes between a leader and a follower.', author: 'Steve Jobs' },
+      { text: 'Life is what happens when you are busy making other plans.', author: 'John Lennon' }
+    ];
+
+    function loadQuotes(){
+      const saved = localStorage.getItem('quotes');
+      if(saved) return JSON.parse(saved);
+      localStorage.setItem('quotes', JSON.stringify(sampleQuotes));
+      return sampleQuotes;
+    }
+
+    const quotes = loadQuotes();
+
+    function showRandom(){
+      if(!quotes.length) return;
+      const i = Math.floor(Math.random()*quotes.length);
+      document.getElementById('quote').textContent = '"'+quotes[i].text+'"';
+      document.getElementById('author').textContent = '-- '+(quotes[i].author||'ANONYMOUS')+' --';
+    }
+
+    document.getElementById('next').addEventListener('click', showRandom);
+    showRandom();
+  </script>
+</body>
+</html>
